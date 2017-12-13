@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  This is JMeter test automation!!
+Parameters:
+  AMI:
+    Type: String
+    Default: 'ami-e2048281'
+  EC2Key:
+    Type: String
+    Default: 'qa-automation-au'
+  StackTTL:
+    Type: String
+    Default: '1'
+  BucketRegion:
+    Type: String
+    Default: 'ap-southeast-1'
+  S3Bucket:
+    Type: String
+    Default: 'gdp-ta'
+  Project:
+    Type: String
+    Default: 'papi'
+  TestCase:
+    Type: String
+    Default: 'GET-endpoints.jmx'
+  Brand:
+    Type: String
+    Default: 'JobStreet'
+  Country:
+    Type: String
+    Default: 'MY'
+  TimeStamp:
+    Type: String
+    Default: '200001-01-000000'
+Resources:
+  JMeterSG:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable JMeter Security Group"
+      Tags:
+      - Key: 'Name'
+        Value: 'QA-Jmeter-SG'
+      SecurityGroupIngress:
+      - IpProtocol: 'tcp'
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: '0.0.0.0/0'
+#      VpcId: !Ref 'PerfTestVPC'
+  JMeterProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      Roles:
+      - 'performance-test'
+#      InstanceProfileName: 'instanceProfileName'
+  JMeterMaster:
+    DependsOn: ['JMeterSG']
+    Type: "AWS::EC2::Instance"
+    Metadata:
+      AWS::CloudFormation::Init:
+        config:
+          files:
+            /home/ubuntu/jmeter.properties:
+              content: |
+                client.rmi.localport=1099
+              mode: "000644"
+              owner: "ubuntu"
+              group: "ubuntu"
+    Properties:
+      IamInstanceProfile: !Ref 'JMeterProfile'
+      SecurityGroupIds:
+      - !Ref 'JMeterSG'
+      ImageId: !Ref 'AMI'
+      InstanceType: "t2.micro"
+      KeyName: !Ref 'EC2Key'
+      Tags:
+      - Key: 'Name'
+        Value: 'QA-Jmeter'
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -xe
+            /usr/local/bin/cfn-init -s ${AWS::StackId} -r JMeterMaster --region=${AWS::Region} &> /home/ubuntu/init.log
+            sudo apt-get update
+            sudo apt install dos2unix
+            sudo apt install jq
+            su - ubuntu
+            export ec2_dir=/home/ubuntu/JMeter
+            sudo mkdir $ec2_dir
+            sudo chmod 777 $ec2_dir
+            export bucket=${S3Bucket}
+            aws s3 cp s3://$bucket/JMeter/scripts/jmeter.sh $ec2_dir --region ${BucketRegion}
+            cd $ec2_dir
+            dos2unix ./jmeter.sh
+            chmod a+x ./jmeter.sh
+            ./jmeter.sh ${S3Bucket} ${Brand} ${Country} ${Project} ${TestCase} ${BucketRegion} ${TimeStamp}
+            #echo "aws cloudformation delete-stack --stack-name ${AWS::StackName} --region${AWS::Region}" | at now + ${StackTTL} hours

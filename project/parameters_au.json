@@ -1,0 +1,42 @@
+[
+  {
+    "ParameterKey":"AMI",
+    "ParameterValue": "ami-55846b37"
+  },
+  {
+    "ParameterKey": "EC2Key",
+    "ParameterValue": "qa-automation-au"
+  },
+  {
+    "ParameterKey": "StackTTL",
+    "ParameterValue": "2"
+  },
+  {
+    "ParameterKey": "BucketRegion",
+    "ParameterValue": "ap-southeast-1"
+  },
+  {
+    "ParameterKey": "S3Bucket",
+    "ParameterValue": "gdp-ta"
+  },
+  {
+    "ParameterKey": "Project",
+    "ParameterValue": "papi"
+  },
+  {
+    "ParameterKey": "TestCase",
+    "ParameterValue": "GET-endpoints.jmx"
+  },
+  {
+    "ParameterKey": "Brand",
+    "ParameterValue": "JobStreet"
+  },
+  {
+    "ParameterKey": "Country",
+    "ParameterValue": "MY"
+  },
+  {
+    "ParameterKey": "TimeStamp",
+    "ParameterValue": "20171206-154508"
+  }
+]
