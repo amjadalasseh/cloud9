@@ -1,5 +1,46 @@
 <style>
 /* Center the loader */
+
+/* leave this part out */
+body{text-align:center; padding-top:30px;}
+/* leave this part out */
+
+.clearfix{*zoom:1;}.clearfix:before,.clearfix:after{display:table;content:"";line-height:0;}
+.clearfix:after{clear:both;}
+.hide-text{font:0/0 a;color:transparent;text-shadow:none;background-color:gray;border:0;}
+.input-block-level{display:block;width:100%;min-height:30px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.btn-file{overflow:hidden;position:relative;vertical-align:middle;}.btn-file>input{position:absolute;top:0;right:0;margin:0;opacity:0;filter:alpha(opacity=0);transform:translate(-300px, 0) scale(4);font-size:23px;direction:ltr;cursor:pointer;}
+.fileupload{margin-bottom:9px;}.fileupload .uneditable-input{display:inline-block;margin-bottom:0px;vertical-align:middle;cursor:text;}
+.fileupload .thumbnail{overflow:hidden;display:inline-block;margin-bottom:5px;vertical-align:middle;text-align:center;}.fileupload .thumbnail>img{display:inline-block;vertical-align:middle;max-height:100%;}
+.fileupload .btn{vertical-align:middle;}
+.fileupload-exists .fileupload-new,.fileupload-new .fileupload-exists{display:none;}
+.fileupload-inline .fileupload-controls{display:inline;}
+.fileupload-new .input-append .btn-file{-webkit-border-radius:0 3px 3px 0;-moz-border-radius:0 3px 3px 0;border-radius:0 3px 3px 0;}
+.thumbnail-borderless .thumbnail{border:none;padding:0;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
+.fileupload-new.thumbnail-borderless .thumbnail{border:1px solid #fff;}
+.control-group.warning .fileupload .uneditable-input{color:gray;border-color:gray;}
+.control-group.warning .fileupload .fileupload-preview{color:gray;}
+.control-group.warning .fileupload .thumbnail{border-color:gray;}
+.control-group.error .fileupload .uneditable-input{color:gray;border-color:gray;}
+.control-group.error .fileupload .fileupload-preview{color:gray;}
+.control-group.error .fileupload .thumbnail{border-color:gray;}
+.control-group.success .fileupload .uneditable-input{color:gray;border-color:gray;}
+.control-group.success .fileupload .fileupload-preview{color:gray;}
+.control-group.success .fileupload .thumbnail{border-color:gray;}
+
+
+.cliente {
+	margin-top:10px;
+	border: #cdcdcd medium dotted;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	    width: 32px;
+    padding-left: 2px;
+	    margin-left: -10px;
+    margin-top: 100px;
+}
+
 #loader {
   position: absolute;
   left: 50%;
@@ -54,13 +95,40 @@
 </style>
 
 <script>
+!function(e){var t=function(t,n){this.$element=e(t),this.type=this.$element.data("uploadtype")||(this.$element.find(".thumbnail").length>0?"image":"file"),this.$input=this.$element.find(":file");if(this.$input.length===0)return;this.name=this.$input.attr("name")||n.name,this.$hidden=this.$element.find('input[type=hidden][name="'+this.name+'"]'),this.$hidden.length===0&&(this.$hidden=e('<input type="hidden" />'),this.$element.prepend(this.$hidden)),this.$preview=this.$element.find(".fileupload-preview");var r=this.$preview.css("height");this.$preview.css("display")!="inline"&&r!="0px"&&r!="none"&&this.$preview.css("line-height",r),this.original={exists:this.$element.hasClass("fileupload-exists"),preview:this.$preview.html(),hiddenVal:this.$hidden.val()},this.$remove=this.$element.find('[data-dismiss="fileupload"]'),this.$element.find('[data-trigger="fileupload"]').on("click.fileupload",e.proxy(this.trigger,this)),this.listen()};t.prototype={listen:function(){this.$input.on("change.fileupload",e.proxy(this.change,this)),e(this.$input[0].form).on("reset.fileupload",e.proxy(this.reset,this)),this.$remove&&this.$remove.on("click.fileupload",e.proxy(this.clear,this))},change:function(e,t){if(t==="clear")return;var n=e.target.files!==undefined?e.target.files[0]:e.target.value?{name:e.target.value.replace(/^.+\\/,"")}:null;if(!n){this.clear();return}this.$hidden.val(""),this.$hidden.attr("name",""),this.$input.attr("name",this.name);if(this.type==="image"&&this.$preview.length>0&&(typeof n.type!="undefined"?n.type.match("image.*"):n.name.match(/\.(gif|png|jpe?g)$/i))&&typeof FileReader!="undefined"){var r=new FileReader,i=this.$preview,s=this.$element;r.onload=function(e){i.html('<img src="'+e.target.result+'" '+(i.css("max-height")!="none"?'style="max-height: '+i.css("max-height")+';"':"")+" />"),s.addClass("fileupload-exists").removeClass("fileupload-new")},r.readAsDataURL(n)}else this.$preview.text(n.name),this.$element.addClass("fileupload-exists").removeClass("fileupload-new")},clear:function(e){this.$hidden.val(""),this.$hidden.attr("name",this.name),this.$input.attr("name","");if(navigator.userAgent.match(/msie/i)){var t=this.$input.clone(!0);this.$input.after(t),this.$input.remove(),this.$input=t}else this.$input.val("");this.$preview.html(""),this.$element.addClass("fileupload-new").removeClass("fileupload-exists"),e&&(this.$input.trigger("change",["clear"]),e.preventDefault())},reset:function(e){this.clear(),this.$hidden.val(this.original.hiddenVal),this.$preview.html(this.original.preview),this.original.exists?this.$element.addClass("fileupload-exists").removeClass("fileupload-new"):this.$element.addClass("fileupload-new").removeClass("fileupload-exists")},trigger:function(e){this.$input.trigger("click"),e.preventDefault()}},e.fn.fileupload=function(n){return this.each(function(){var r=e(this),i=r.data("fileupload");i||r.data("fileupload",i=new t(this,n)),typeof n=="string"&&i[n]()})},e.fn.fileupload.Constructor=t,e(document).on("click.fileupload.data-api",'[data-provides="fileupload"]',function(t){var n=e(this);if(n.data("fileupload"))return;n.fileupload(n.data());var r=e(t.target).closest('[data-dismiss="fileupload"],[data-trigger="fileupload"]');r.length>0&&(r.trigger("click.fileupload"),t.preventDefault())})}(window.jQuery)
 function myFunction() {
     document.getElementById("loader").style.display = 'block';
-	 myVar = setTimeout(done, 3000);
+	 
+	 myVar = setTimeout(cloudformation, 1000);
 }
+
+function cloudformation() {
+	
+	document.getElementById("cloudformation").style.display = 'block';	
+	myVar = setTimeout(ec2, 3000);	
+}
+function ec2() {
+    document.getElementById("cloudformation").style.display = 'none';
+	document.getElementById("ec2").style.display = 'block';	
+	myVar = setTimeout(IAM, 3000);
+}
+function IAM() {
+    document.getElementById("ec2").style.display = 'none';
+	document.getElementById("IAM").style.display = 'block';
+	myVar = setTimeout(Security, 3000);
+}
+function Security() {
+    document.getElementById("IAM").style.display = 'none';
+	document.getElementById("Security").style.display = 'block';
+	myVar = setTimeout(done, 3000);	
+}
+
 function done() {
     document.getElementById("loader").style.display = 'none';
+	document.getElementById("Security").style.display = 'none';
 	document.getElementById("result").style.display = 'block';
+	$("#myModal").modal();
+	
 	 
 }
 </script>
@@ -68,36 +136,180 @@ function done() {
 
 <head>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Dropdown button
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-  </div>
-</div>
-			
-	<div class="container">
+    <nav class="navbar navbar-expand-lg bg-primary fixed-top text-uppercase" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top" style=" color: white;">GDP-SeekAsia</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio" style=" color: white;">Test-Auto-Deployer</a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+	
+	
+	
+
+	<div class="container" style="margin-top: 100px;">
+	
 	  <div class="row">
 		<div class="col-md-6 offset-md-3">
-			  <div class="form-group">
+		
+			<div class="form-group">
 				<label for="exampleInputEmail1">stack name</label>
-				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name">
+				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name" value="first test stack">
+			</div>
+			  
+			<div class="form-group">
+				<div class="row">
+					<div class="col-2"><label for="exampleInputEmail1">region : </label></div>
+					<div class="col" style="margin-left: 10px;">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						ap-southeast-2
+					  </button>
+					  <div class="dropdown-menu dropdown-menu-right">
+						<button class="dropdown-item" type="button">ap-southeast-1</button>
+						<button class="dropdown-item" type="button">eu-central-1</button>
+						<button class="dropdown-item" type="button">eu-west-1</button>
+						<button class="dropdown-item" type="button">eu-west-2</button>
+					  </div>
+					</div>
+					</div>
+				</div>
+			</div>
+		  
+			<div class="form-group">
+				<label for="exampleInputEmail1">Duration (TTL)</label>
+				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name" value="3">
+			</div>
+			<div style="border-top: #cdcdcd medium dotted;padding-top:10px"><div>
+			  <div class="row">
+				<div class="col">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-4"><label for="exampleInputEmail1">project name : </label></div>
+						<div class="col">
+							<div class="btn-group">
+							  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								production test
+							  </button>
+							  <div class="dropdown-menu dropdown-menu-right">
+								<button class="dropdown-item" type="button">candidate test</button>
+								<button class="dropdown-item" type="button">job owner test</button>
+							  </div>
+							</div>
+						</div>
+				</div>
+				
+
 			  </div>
-			  <div class="form-group">
-				<label for="exampleInputEmail1">project name</label>
-				<input class="form-control" id="project" aria-describedby="emailHelp" placeholder="Enter your project name">
+			  
+			  			  <div class="form-group">
+				<div class="row">
+					<div class="col-4"><label for="exampleInputEmail1">test case</label></div>
+					<div class="col">
+						<div class="btn-group">
+						  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							production test
+						  </button>
+						  <div class="dropdown-menu dropdown-menu-right">
+							<button class="dropdown-item" type="button">development test</button>
+						  </div>
+						</div>
+					</div>
+				</div>
+				
+
 			  </div>
-			  <div class="form-group">
-				<label for="exampleInputEmail1">test case</label>
-				<input class="form-control" id="test_case=" aria-describedby="emailHelp" placeholder="Enter your test_case=">
+				
+				   <div class="form-group">
+				   <div class="row">
+					<div class="col-4"><label for="exampleInputEmail1">brand : </label></div>
+					<div class="col">
+						<div class="btn-group">
+						  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							OCC
+						  </button>
+						  <div class="dropdown-menu dropdown-menu-right">
+							<button class="dropdown-item" type="button">JobStreet</button>
+							<button class="dropdown-item" type="button">JobsDB</button>
+							<button class="dropdown-item" type="button">Catho</button>
+						  </div>
+						</div>
+					</div>
+				  </div></div>
+					<div class="form-group">
+					<div class="row">
+						<div class="col-4"><label for="exampleInputEmail1">country : </label></div>
+						<div class="col">
+						<div class="btn-group">
+						  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Australia
+						  </button>
+						  <div class="dropdown-menu dropdown-menu-right">
+							<button class="dropdown-item" type="button">Malaysia</button>
+							<button class="dropdown-item" type="button">Singapore</button>
+							<button class="dropdown-item" type="button">Philippines</button>
+							<button class="dropdown-item" type="button">Indonesia</button>
+							<button class="dropdown-item" type="button">Vietnam</button>
+							<button class="dropdown-item" type="button">Brazil</button>
+						  </div>
+						</div>
+						</div>
+					</div></div>
+					
+
+			  
+
+				  
+				</div>
+				<div class="col-1" style=' border-left: #cdcdcd medium dotted;border-right: #cdcdcd medium dotted;'>
+				<div class="cliente"> OR</div>
+				</div>
+				<div class="col-4">
+				
+				  <div class="fileupload fileupload-new" style="margin-top:100px" data-provides="fileupload">
+    <span class="btn btn-primary btn-file"><span class="fileupload-new">Select file</span>
+    <span class="fileupload-exists">Change</span>         <input type="file" /></span>
+    <span class="fileupload-preview"></span>
+    <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+  </div>
+				
+				</div>
 			  </div>
+
+			
+			 <div class="form-group">
+			 
+
+				
+
+			</div>
+			
+			<div class="form-group">
+			
+
+				
+
+			</div>
+			  
+
+
+
+
 			  <div class="form-group">
 			  
 				
@@ -108,14 +320,53 @@ function done() {
 			<div id="loader"></div>
 
 			<div class="col-md-6 offset-md-5">
-			<div style="display:none;    padding-left: 40%;" id="result" class="animate-bottom">
+			<div style="display:none; " id="cloudformation" class="animate-bottom">
+			  
+			  <p style=" margin-top: 145px;">creating cloudformation stack...</p>
+			</div>
+			
+			<div style="display:none; " id="ec2" class="animate-bottom">
+			  
+			  <p style=" margin-top: 145px;">creating EC2...</p>
+			</div>
+			<div style="display:none; " id="IAM" class="animate-bottom">
+			  
+			  <p style=" margin-top: 145px;">creating IAm rules...</p>
+			</div>
+			
+			<div style="display:none; " id="Security" class="animate-bottom">
+			  
+			  <p style=" margin-top: 145px;">creating Security group...</p>
+			</div>
+			
+			<div style="display:none; " id="result" class="animate-bottom">
 			  <h2>Done!</h2>
 			  <p>Enjoy your testing..</p>
 			</div>
 			</div>
 		</div>
 	  </div>
+	  
+	  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Report result</h4>
+        </div>
+        <div class="modal-body">
+		<a href="http://gdp-ta.s3-ap-southeast-1.amazonaws.com/JMeter/results/papi/20171213-sdadsad/result-report/index.html" target="_blank">View the Report</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 	
 </body>
+
+
+
