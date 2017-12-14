@@ -28,7 +28,9 @@ body{text-align:center; padding-top:30px;}
 .control-group.success .fileupload .fileupload-preview{color:gray;}
 .control-group.success .fileupload .thumbnail{border-color:gray;}
 
-
+.cost{
+  #display:none;
+}
 .cliente {
 	margin-top:10px;
 
@@ -131,6 +133,12 @@ function done() {
 	
 	 
 }
+
+function setprice() {
+	var x = document.getElementById("stack_name").value;
+    document.getElementById("demo").innerHTML = x*0.08 +" USD";
+	 
+}
 </script>
 
 
@@ -169,7 +177,7 @@ function done() {
 		
 			<div class="form-group">
 				<label for="exampleInputEmail1">stack name</label>
-				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name" value="first test stack">
+				<input class="form-control" id="stack_name1" aria-describedby="emailHelp" placeholder="Enter your stack name" value="first test stack">
 			</div>
 			  
 			<div class="form-group">
@@ -193,7 +201,7 @@ function done() {
 		  
 			<div class="form-group">
 				<label for="exampleInputEmail1">Duration (TTL)</label>
-				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name" value="3">
+				<input class="form-control" id="stack_name" aria-describedby="emailHelp" placeholder="Enter your stack name" value="3"onkeydown="setprice()" onclick="setprice()" onchange="setprice()" >
 			</div>
 			<div style="border-top: #cdcdcd medium dotted;padding-top:10px"><div>
 			  <div class="row">
@@ -292,34 +300,15 @@ function done() {
 			  </div>
 
 			
-			 <div class="form-group">
-			 
 
-				
-
-			</div>
-			
-			<div class="form-group">
-			
-
-				
-
-			</div>
-			  
-
-
-
-
-			  <div class="form-group">
-			  
-				
-
-
-			  </div>
 			  <button class="btn" onclick="myFunction()">Submit</button>
+			  <div class='cost'> this will cost <div id="demo">0 USD</div> 
+			  <div>
 			<div id="loader"></div>
 
-			<div class="col-md-6 offset-md-5">
+	
+		</div>
+				<div class="col-md-6 offset-md-5">
 			<div style="display:none; " id="cloudformation" class="animate-bottom">
 			  
 			  <p style=" margin-top: 145px;">creating cloudformation stack...</p>
@@ -344,7 +333,6 @@ function done() {
 			  <p>Enjoy your testing..</p>
 			</div>
 			</div>
-		</div>
 	  </div>
 	  
 	  <div class="modal fade" id="myModal" role="dialog">
